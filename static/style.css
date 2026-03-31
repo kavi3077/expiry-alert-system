@@ -1,0 +1,120 @@
+/* -------- GLOBAL -------- */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #020617;
+    color: #e2e8f0;
+}
+
+h1, h2, h3 {
+    margin-bottom: 10px;
+}
+
+/* -------- NAVBAR -------- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e293b;
+    padding: 15px 30px;
+}
+
+.navbar a {
+    color: #38bdf8;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: 500;
+}
+
+.navbar a:hover {
+    color: #0ea5e9;
+}
+
+/* -------- CARD -------- */
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    margin: 20px 0;
+}
+
+/* -------- FORMS -------- */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #38bdf8;
+    color: #020617;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #0ea5e9;
+}
+
+/* -------- TABLE -------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background: #1e293b;
+}
+
+tr {
+    border-bottom: 1px solid #334155;
+}
+
+tr:hover {
+    background: #0f172a;
+}
+
+/* -------- BADGES (RISK) -------- */
+.badge {
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.high {
+    background: #ef4444;
+    color: white;
+}
+
+.medium {
+    background: #facc15;
+    color: black;
+}
+
+.low {
+    background: #22c55e;
+    color: black;
+}
+
+/* -------- CENTER CARD (LOGIN/SIGNUP) -------- */
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Billing System</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h1, h3 {
+            text-align: center;
+            margin: 5px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        select, input {
+            padding: 8px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 8px 12px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-btn { background: #2ecc71; }
+        .clear-btn { background: #c0392b; }
+        .print-btn { background: #e67e22; }
+        .final-btn {
+            background: #27ae60;
+            font-weight: bold;
+        }
+
+        .btn-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+        }
+
+        .total-row {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .remove-link {
+            text-decoration: none;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 5px;
+            background: #e74c3c;
+            display: inline-block;
+        }
+
+        .remove-link:hover {
+            opacity: 0.8;
+        }
+
+        @media print {
+            form, .btn-group, .remove-link {
+                display: none;
+            }
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div style="margin-bottom: 15px;">
+        <a href="/dashboard" style="
+            text-decoration:none;
+            background:#2563eb;
+            color:white;
+            padding:8px 14px;
+            border-radius:6px;
+            font-size:14px;
+        ">
+            ⬅ Back to Dashboard
+        </a>
+    </div>
+
+    <!-- STORE HEADER -->
+    <h1>🛒 Super Store</h1>
+    <h3>Expiry Alert Billing System</h3>
+
+    <!-- BILL INFO -->
+    <div class="top-bar">
+        <div><strong>Bill No:</strong> {{ bill_no }}</div>
+        <div><strong>Date:</strong> {{ now.strftime("%Y-%m-%d %H:%M") }}</div>
+    </div>
+
+    <!-- ADD PRODUCT -->
+    <form method="POST">
+        <select name="product_id">
+            {% for p in products %}
+            <option value="{{p[0]}}">
+                {{p[1]}} (₹{{ "%.2f"|format(p[3]) }})
+            </option>
+            {% endfor %}
+        </select>
+
+        <input type="number" name="qty" placeholder="Quantity" min="1" required>
+        <button class="add-btn">➕ Add to Bill</button>
+    </form>
+
+    <!-- BILL TABLE -->
+    <table>
+    <tr>
+        <th>Name</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Discount</th>
+        <th>Total</th>
+        <th>Action</th>
+    </tr>
+
+    {% set grand_total = namespace(value=0) %}
+
+    {% for item in cart %}
+    <tr>
+        <td>{{item.name}}</td>
+        <td>{{item.qty}}</td>
+        <td>₹{{ "%.2f"|format(item.price) }}</td>
+        <td>{{item.discount}}%</td>
+        <td>₹{{ "%.2f"|format(item.total) }}</td>
+        <td>
+            <a href="/remove/{{item.id}}"
+               class="remove-link"
+               onclick="return confirm('Remove this item from bill?')">
+               ❌ Remove
+            </a>
+        </td>
+    </tr>
+
+    {% set grand_total.value = grand_total.value + item.total %}
+    {% endfor %}
+
+    <tr class="total-row">
+        <td colspan="5">Grand Total</td>
+        <td>₹{{ "%.2f"|format(grand_total.value) }}</td>
+    </tr>
+
+    </table>
+
+    <!-- ACTION BUTTONS -->
+    <div class="btn-group">
+
+        <a href="/clear">
+            <button class="clear-btn">🗑️ Clear</button>
+        </a>
+
+        <!-- Updates stock only -->
+        <a href="/finalize">
+            <button class="final-btn">✅ Finalize Bill</button>
+        </a>
+
+        <!-- Print + Auto Clear -->
+        <button class="print-btn" onclick="printAndClear()">🖨️ Print</button>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        Thank you for shopping with us 😊
+    </div>
+
+</div>
+
+<script>
+function printAndClear() {
+    window.print();
+
+    // clear cart after printing
+    setTimeout(() => {
+        window.location.href = "/complete";
+    }, 500);
+}
+</script>
+
+</body>
+</html>

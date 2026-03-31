@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expiring Soon</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+        }
+        h2, h3 {
+            text-align: center;
+        }
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background: #ff6b6b;
+            color: white;
+        }
+        .btn {
+            padding: 6px 10px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div style="margin-bottom: 15px;">
+    <a href="/dashboard" style="
+        text-decoration:none;
+        background:#2563eb;
+        color:white;
+        padding:8px 14px;
+        border-radius:6px;
+    ">
+        ⬅ Back to Dashboard
+    </a>
+</div>
+
+<h2>⚠️ Expiring Soon Products</h2>
+<h3>Total Products: {{ products|length }}</h3>
+
+<table>
+<tr>
+    <th>SI.No</th>
+    <th>Name</th>
+    <th>Quantity</th>
+    <th>Days Left</th>
+    <th>Action</th>
+</tr>
+
+{% for p in products %}
+<tr>
+    <td>{{ loop.index }}</td>
+    <td>{{p.name}}</td>
+    <td>{{p.qty}}</td>
+    <td>{{p.days_left}}</td>
+    <td>
+        <a href="/risk/{{p.id}}" class="btn">Risk</a>
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

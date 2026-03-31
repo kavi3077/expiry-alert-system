@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Inventory</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #020617;
+    color: white;
+    padding: 20px;
+}
+
+h2, h3 {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid gray;
+    text-align: center;
+}
+
+input {
+    padding: 8px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    padding: 8px 15px;
+    background: #38bdf8;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0ea5e9;
+}
+
+.status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.remove-btn {
+    background: gray;
+    padding: 6px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+}
+
+.remove-btn:hover {
+    opacity: 0.8;
+}
+</style>
+
+</head>
+
+<body>
+
+<div style="margin-bottom: 15px;">
+    <a href="/dashboard" style="
+        text-decoration:none;
+        background:#2563eb;
+        color:white;
+        padding:8px 14px;
+        border-radius:6px;
+    ">
+        ⬅ Back to Dashboard
+    </a>
+</div>
+
+<h2>Add Product</h2>
+<form method="POST">
+    <input name="name" placeholder="Name" required>
+    <input name="quantity" placeholder="Quantity" required>
+    <input name="price" placeholder="Price" required>
+    <input name="expiry" type="date" required>
+    <button>Add</button>
+</form>
+
+<h2>Products</h2>
+<h3>Total Products: {{ products|length }}</h3>
+
+<table>
+<tr>
+    <th>SI.No</th>
+    <th>Name</th>
+    <th>Qty</th>
+    <th>Price</th>
+    <th>Expiry</th>
+    <th>Days Left</th>
+    <th>Risk Score</th>
+    <th>Status</th>
+</tr>
+
+{% for p in products %}
+<tr>
+    <td>{{ loop.index }}</td>
+    <td>{{p.name}}</td>
+    <td>{{p.qty}}</td>
+    <td>{{p.price}}</td>
+    <td>{{p.expiry}}</td>
+    <td>{{p.days_left}}</td>
+    <td>{{p.risk}}</td>
+
+    <td>
+        {% if p.days_left < 0 %}
+            <a href="/delete/{{p.id}}"
+               onclick="return confirm('Remove expired product?')"
+               class="remove-btn">
+               ❌ Expired
+            </a>
+        {% else %}
+            <span class="status" style="background:{{p.color}};">
+                {{p.status}}
+            </span>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>
